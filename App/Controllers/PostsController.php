@@ -9,5 +9,4 @@ class PostsController
     {
         dd(__METHOD__, $id);
     }
-
 }
