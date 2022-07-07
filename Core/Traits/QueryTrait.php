@@ -10,13 +10,13 @@ trait QueryTrait
     use ConnectionTrait;
 
     static protected string|null $tableName = null;
-    static protected string|null $query = "";
+    static protected string|null $query = '';
 
     public static function all()
     {
         $query = 'SELECT * FROM ' . static::$tableName;
-        
-        return static::connect()->query($query)->fetchAll(PDO::FETCH_CLASS, static::class);
+
+        return static::connect()->query($query) ->fetchAll(PDO::FETCH_CLASS, static::class);
     }
 
     public static function find(int $id)
@@ -30,6 +30,14 @@ trait QueryTrait
         return $stmt->fetchObject(static::class);
     }
 
+    /**
+     * Return only one row
+     *
+     * @param string $column
+     * @param        $value
+     *
+     * @return false|mixed|object|\stdClass|null
+     */
     public static function findBy(string $column, $value)
     {
         $query = "SELECT * FROM " . static::$tableName . " WHERE {$column} = :{$column}";
@@ -41,14 +49,15 @@ trait QueryTrait
         return $stmt->fetchObject(static::class);
     }
 
-    public static function create($fields){
+    public static function create(array $fields)
+    {
         $vars = static::prepareQueryVars($fields);
 
-        $query = 'INSERT INTO ' . static::$tableName . '('. $vars['keys'] .') VALUES (' . $vars['placeholders'] .')';
+        $query = 'INSERT INTO ' . static::$tableName . '(' . $vars['keys'] . ') VALUES (' . $vars['placeholders'] . ')';
 
         $stmt = static::connect()->prepare($query);
 
-        foreach ($fields as $key => $value){
+        foreach ($fields as $key => $value) {
             $stmt->bindValue(":{$key}", $value);
         }
 
@@ -104,8 +113,9 @@ trait QueryTrait
         return static::delete($this->id);
     }
 
-        /**
+    /**
      * $conditions = ['column', '<', 'value']
+     *
      * @param array $conditions
      */
     public function where(array $conditions)
@@ -114,9 +124,8 @@ trait QueryTrait
         $value = $conditions[$valueKey];
         unset($conditions[$valueKey]);
 
+        static::$query .= 'WHERE ' . implode($conditions) . ' :value';
 
-        static::$query .= 'WHERE' . implode($conditions) . ' :value';
-        
         $stmt = static::connect()->prepare(static::$query);
         $stmt->bindValue(':value', $value);
         $stmt->execute();

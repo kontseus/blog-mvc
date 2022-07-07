@@ -7,5 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><?= !empty($pageTitle) ? $pageTitle : 'Home' ?></title>
     <link rel="stylesheet" href="<?= ASSET_URL . '/libs/bootstrap/css/bootstrap.min.css' ?>">
+    <link rel="stylesheet" href="<?= ASSET_URL . '/css/main.css' ?>">
 </head>
 <body>
