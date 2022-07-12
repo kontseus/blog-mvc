@@ -10,3 +10,4 @@
     <link rel="stylesheet" href="<?= ASSET_URL . '/css/main.css' ?>">
 </head>
 <body>
+<?php include_once VIEW_DIR . '/nav.php'; ?>

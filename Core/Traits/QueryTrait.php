@@ -21,7 +21,7 @@ trait QueryTrait
 
     public static function find(int $id)
     {
-        $query = 'SELECT * FROM' . static::$tableName . ' WHERE id = :id';
+        $query = 'SELECT * FROM ' . static::$tableName . ' WHERE id = :id';
 
         $stmt = static::connect()->prepare($query);
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
@@ -124,7 +124,7 @@ trait QueryTrait
         $value = $conditions[$valueKey];
         unset($conditions[$valueKey]);
 
-        static::$query .= 'WHERE ' . implode($conditions) . ' :value';
+        static::$query .= ' WHERE ' . implode($conditions) . ' :value';
 
         $stmt = static::connect()->prepare(static::$query);
         $stmt->bindValue(':value', $value);
